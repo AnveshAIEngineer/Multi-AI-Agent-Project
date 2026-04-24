@@ -1,0 +1,17 @@
+from dotenv import load_dotenv
+import os 
+
+# For loading the api keys
+load_dotenv()
+
+class Settings:
+    GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+    TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
+
+    ALLOWED_MODEL_NAMES = [
+        "llama-3.1-8b-instant",
+        "llama-3.3-70b-versatile"
+    ]
+
+settings = Settings()
+

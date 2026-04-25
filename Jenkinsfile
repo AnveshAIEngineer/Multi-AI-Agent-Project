@@ -3,7 +3,7 @@ pipeline{
 
     environment {
         SONAR_PROJECT_KEY = 'LLMOPS'
-		SONAR_SCANNER_HOME = tool 'SonarQubeScanner'
+		SONAR_SCANNER_HOME = tool 'Sonarqube'
         AWS_REGION = 'us-east-1'
         ECR_REPO = 'my-repo'
         IMAGE_TAG = 'latest'
@@ -20,19 +20,21 @@ pipeline{
         }
 
     stage('SonarQube Analysis'){
-        steps {
-            withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
-                withSonarQubeEnv('sonarqube') {
-                    sh """
-                    ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
-                    -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
-                    -Dsonar.sources=. \
-                    -Dsonar.login=${SONAR_TOKEN}
-                    """
-                }
-            }
-        }
-    }
+			steps {
+				withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+    					
+					withSonarQubeEnv('Sonarqube') {
+    						sh """
+						${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+						-Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+						-Dsonar.sources=. \
+						-Dsonar.host.url=http://sonarqube-dind:9000 \
+						-Dsonar.login=${SONAR_TOKEN}
+						"""
+					}
+				}
+			}
+		}
 
     stage('Build and Push Docker Image to ECR') {
             steps {

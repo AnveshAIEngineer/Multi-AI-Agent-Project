@@ -3,7 +3,7 @@ pipeline{
 
     environment {
         SONAR_PROJECT_KEY = 'LLMOPS'
-		SONAR_SCANNER_HOME = tool 'Sonarqube'
+		SONAR_SCANNER_HOME = tool 'SonarQubeScanner'
         AWS_REGION = 'us-east-1'
         ECR_REPO = 'my-repo'
         IMAGE_TAG = 'latest'
@@ -27,7 +27,7 @@ pipeline{
                     ${SONAR_SCANNER_HOME}/bin/sonar-scanner \
                     -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
                     -Dsonar.sources=. \
-                    -Dsonar.host.url=http://localhost:9000 \
+                    -Dsonar.host.url=http://host.docker.internal:9000 \
                     -Dsonar.login=${SONAR_TOKEN}
                     """
                 }

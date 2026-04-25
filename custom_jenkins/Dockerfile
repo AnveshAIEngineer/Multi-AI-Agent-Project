@@ -7,7 +7,8 @@ RUN apt-get update && \
     ca-certificates \
     curl \
     gnupg \
-    lsb-release && \
+    lsb-release \
+    docker.io && \
     apt-get clean
 
 USER jenkins
